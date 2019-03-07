@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './widgets/tileWidget.dart';
+import './widgets/customwidget.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,8 +31,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
+          actions: <Widget>[
+            IconButton(
+        icon: Icon(Icons.navigate_next),
+              iconSize: 48,
+              color: Colors.white,
+              onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomWidget())),
+            )
+          ],
         ),
-        body: Center(
+        body:
+
+      Center(
           child: ListView(
             scrollDirection: Axis.vertical,
             children: <Widget>[

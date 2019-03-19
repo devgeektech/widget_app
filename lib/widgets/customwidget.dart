@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './customwidget.dart';
 import './textwidget.dart';
+import './newpostwidget.dart';
 
 class CustomWidget extends StatefulWidget {
   @override
@@ -34,6 +35,16 @@ class _MyCustomWidget extends State<CustomWidget> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Custom Widget 1"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.navigate_next),
+            iconSize: 48,
+            color: Colors.white,
+            onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPostWidget())),
+          )
+        ],
+
+
       ),
         body:Column(
       children: <Widget>[

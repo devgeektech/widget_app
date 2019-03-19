@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.widgetapp">
 
     <!-- The INTERNET permission is required for development. Specifically,
@@ -6,6 +7,8 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -13,9 +16,20 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
-        android:name="io.flutter.app.FlutterApplication"
         android:label="widget_app"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        tools:ignore="GoogleAppIndexingWarning">
+        <uses-feature
+            android:glEsVersion="0x00020000"
+            android:required="true"/>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDLlcPcnJzPsa3rdoDWSY7-IVpajGhNiWo"/>
+        <!--  <meta-data android:name="com.google.android.geo.API_KEY"
+              android:value="AIzaSyBe1zVQghiHjPHldW_l2giSmOVL_szHgXM"/>-->
+
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -35,5 +49,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+
     </application>
 </manifest>

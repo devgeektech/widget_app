@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart';
+//import 'package:geolocator/geolocator.dart';
+//import 'package:location/location.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NewPostWidget extends StatefulWidget {
   @override
@@ -18,23 +19,25 @@ class _myPostWidget extends State<NewPostWidget> {
   TextEditingController locationController = TextEditingController();
   TextEditingController postController = TextEditingController();
   TextEditingController linkController = TextEditingController();
+  String link="http://";
 //Map<String,double> currentLocation=new Map();
-  var currentLocation = LocationData;
+ // var currentLocation = LocationData;
 
   StreamSubscription<Map<String,double>> locationSubscription;
-Location location=new Location();
+//Location location=new Location();
 String error;
   @override
   void initState() {
+
     super.initState();
     locationController.text = "";
-    linkController.text = "http://";
+
     //getCurrentLocation();
 
 
  /*   currentLocation['latitude'] = 0.0;
     currentLocation['longitude'] = 0.0;*/
-    initPlateformState();
+    //initPlateformState();
   }
    /* locationSubscription=location.onLocationChanged().listen((Map<String,double> result){
 
@@ -68,7 +71,7 @@ String error;
                 Expanded(
                     child: Padding(
                   padding: EdgeInsets.only(
-                    bottom: 5,
+                    bottom: 2,
                   ),
                   child: Text("Jhon Doe "),
                 ))
@@ -77,7 +80,13 @@ String error;
           ),
         ],
       ),
-      body: Stack(
+      body: GestureDetector(
+          onTap: () {
+
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+
+        child: Stack(
         children: <Widget>[
           ListView(
             scrollDirection: Axis.vertical,
@@ -93,8 +102,8 @@ String error;
                           onPressed: () {
                             debugPrint('222');
                           }),
-                      labelText: "First Field",
-                      hintText: ' Enter Principal e.g. 12000',
+                      labelText: "Sec. 17 chandigarh India",
+                      hintText: ' Address',
                       errorStyle:
                           TextStyle(color: Colors.yellowAccent, fontSize: 15.0),
                       border: OutlineInputBorder(
@@ -125,8 +134,18 @@ String error;
                           onPressed: () {
                             setState(() {
                               if (linkController.text.isNotEmpty) {
-                                linkList.add(linkController.text);
-                                linkController.text="http://";
+                                linkList.add(link + linkController.text);
+                                linkController.text="";
+                              }else{
+                                Fluttertoast.showToast(
+                                    msg: "Please add Post Content.",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIos: 1,
+                                    backgroundColor: Colors.black87,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0
+                                );
                               }
                             });
                           }),
@@ -188,7 +207,21 @@ String error;
               bottom: 0,
               child: InkWell(
                 onTap: (){
+if(postController.text=="") {
 
+  Fluttertoast.showToast(
+      msg: "Please add Post Content.",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.black87,
+      textColor: Colors.white,
+      fontSize: 16.0
+  );
+
+}else{
+  postContent();
+}
 
                 },
                 child: Container(
@@ -209,21 +242,21 @@ String error;
               )
     )
         ],
-      ),
+        ) ),
     );
   }
 
    getCurrentLocation() async {
     //   List<PermissionName> permissionNames = await Permission.requestPermissions([PermissionName.Location]);
 
-      Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.low);
+    //  Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.low);
 
-    print("-----------------$position");
+  //  print("-----------------$position");
   }
 
   launchURL(String url) async {
 
-    print("----------------------------");
+
     print(url);
     if (await canLaunch(url)) {
     await launch(url);
@@ -232,6 +265,22 @@ String error;
     }
   }
 
+  void postContent() {
+
+    // code for post te content
+
+    Fluttertoast.showToast(
+        msg: " Content Post. ",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+
+  }
+/*
   void initPlateformState() async {
 
 
@@ -246,7 +295,7 @@ String error;
       currentLocation = null;
     }
 
-  /*  Map<String,double> my_location;
+  *//*  Map<String,double> my_location;
     try{
       my_location=await location.getLocation as Map<String, double> ;
     }on PlatformException catch( e){
@@ -260,10 +309,10 @@ String error;
 setState(() {
 currentLocation=my_location;
 print("----------------------------$currentLocation");
-});*/
+});*//*
 
 
-  }
+  }*/
 
 }
 

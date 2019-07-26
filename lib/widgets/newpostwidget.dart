@@ -1,42 +1,49 @@
 import 'dart:async';
+import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
-import 'dart:core';
-import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class NewPostWidget extends StatefulWidget {
+
   @override
   _myPostWidget createState() => _myPostWidget();
 }
 
 class _myPostWidget extends State<NewPostWidget> {
+
   List<String> linkList = new List();
   int count = 0;
   TextEditingController locationController = TextEditingController();
   TextEditingController postController = TextEditingController();
   TextEditingController linkController = TextEditingController();
-//Map<String,double> currentLocation=new Map();
-  var currentLocation = LocationData;
 
-  StreamSubscription<Map<String,double>> locationSubscription;
-Location location=new Location();
-String error;
+//Map<String,double> currentLocation=new Map();
+  /*var currentLocation = LocationData;
+
+   StreamSubscription<Map<String, double>> locationSubscription;
+  Location location = new Location();
+  */
+  String error;
+
   @override
   void initState() {
     super.initState();
     locationController.text = "";
     linkController.text = "http://";
+
     //getCurrentLocation();
 
-
- /*   currentLocation['latitude'] = 0.0;
+    /*   currentLocation['latitude'] = 0.0;
     currentLocation['longitude'] = 0.0;*/
-    initPlateformState();
+    //initPlateformState();
   }
-   /* locationSubscription=location.onLocationChanged().listen((Map<String,double> result){
+
+  /* locationSubscription=location.onLocationChanged().listen((Map<String,double> result){
 
       setState(() {
         currentLocation=result;
@@ -71,7 +78,8 @@ String error;
                     bottom: 5,
                   ),
                   child: Text("Jhon Doe "),
-                ))
+                )
+                )
               ],
             ),
           ),
@@ -126,7 +134,7 @@ String error;
                             setState(() {
                               if (linkController.text.isNotEmpty) {
                                 linkList.add(linkController.text);
-                                linkController.text="http://";
+                                linkController.text = "http://";
                               }
                             });
                           }),
@@ -145,8 +153,7 @@ String error;
                     itemCount: linkList.length,
                     itemBuilder: (BuildContext context, int position) {
                       return InkWell(
-
-                        onTap: ()=>  launchURL(linkList[position]),
+                        onTap: () => launchURL(linkList[position]),
                         child: Padding(
                             padding: EdgeInsets.all(5),
                             child: Row(
@@ -187,10 +194,7 @@ String error;
               right: 0,
               bottom: 0,
               child: InkWell(
-                onTap: (){
-
-
-                },
+                onTap: () {},
                 child: Container(
                     color: Colors.blue,
                     child: SizedBox(
@@ -206,39 +210,38 @@ String error;
                         ),
                       ),
                     )),
-              )
-    )
+              ))
         ],
       ),
     );
   }
 
-   getCurrentLocation() async {
+  getCurrentLocation() async {
     //   List<PermissionName> permissionNames = await Permission.requestPermissions([PermissionName.Location]);
 
-      Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.low);
+   // Position position1= await Geolocator().getLastKnownPosition(desiredAccuracy:LocationAccuracy.HIGH);
 
-    print("-----------------$position");
+
+    //Position position = await Geolocator().getLastKnownPosition(desiredAccuracy:  LocationAccuracy.high);
+   /* Position position = await Geolocator()
+        .getLastKnownPosition(desiredAccuracy: LocationAccuracy.low);*/
+   // print("-----------------$position1");
   }
 
   launchURL(String url) async {
-
     print("----------------------------");
     print(url);
     if (await canLaunch(url)) {
-    await launch(url);
+      await launch(url);
     } else {
-    throw 'Could not launch $url';
+      throw 'Could not launch $url';
     }
   }
 
-  void initPlateformState() async {
-
-
+/*  Future<LocationData> initPlateformState() async {
     try {
-      currentLocation = (await location.getLocation) as Type;
+      currentLocation = await location.getLocation ;
       print("----------------------------$currentLocation");
-
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
         error = 'Permission denied';
@@ -246,7 +249,7 @@ String error;
       currentLocation = null;
     }
 
-  /*  Map<String,double> my_location;
+    *//*  Map<String,double> my_location;
     try{
       my_location=await location.getLocation as Map<String, double> ;
     }on PlatformException catch( e){
@@ -260,11 +263,6 @@ String error;
 setState(() {
 currentLocation=my_location;
 print("----------------------------$currentLocation");
-});*/
-
-
-  }
-
+});*//*
+  }*/
 }
-
-

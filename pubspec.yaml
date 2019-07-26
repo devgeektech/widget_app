@@ -26,10 +26,10 @@ dev_dependencies:
   url_launcher: ^5.0.1
   google_api_availability: ^2.0.0
   geolocator: ^3.0.1
-  location: ^2.1.0
-
-
-
+  location: ^2.3.5
+  google_sign_in: ^4.0.4
+  #geolocator: ^5.1.1+1
+  #location: ^2.3.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

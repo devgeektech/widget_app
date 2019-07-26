@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class TextWidget extends StatelessWidget{
+class TextWidget extends StatefulWidget{
   final String textDetail;
   final Color txtColor;
   final Color borderColor;
@@ -11,32 +11,41 @@ class TextWidget extends StatelessWidget{
   const TextWidget({Key key, this.textDetail, this.txtColor, this.borderColor, this.onclick, this.index}) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() {
+
+    return _TextWidgetState();
+  }
+
+}
+class _TextWidgetState extends State<TextWidget>{
+
+
+  @override
   Widget build(BuildContext context) {
 
     return  InkWell(
-        onTap:onclick,
-      child: Container(
-        padding: EdgeInsets.only(top: 10,bottom: 10,right: 20,left: 20),
-        margin: EdgeInsets.only(top: 5,bottom: 5,left: 5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          shape: BoxShape.rectangle,
-          border: new Border.all(color: borderColor,width: 2),
-        ),
+        onTap:widget.onclick,
+        child: Container(
+            padding: EdgeInsets.only(top: 10,bottom: 10,right: 20,left: 20),
+            margin: EdgeInsets.only(top: 5,bottom: 5,left: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              shape: BoxShape.rectangle,
+              border: new Border.all(color: widget.borderColor,width: 2),
+            ),
 
-        //,
-        child: Text(textDetail,
-          textAlign: TextAlign.center,
-          textDirection: TextDirection.ltr,
-          style: TextStyle(
-            fontSize: 16,
-            color: txtColor
-          ),
+            //,
+            child: Text(widget.textDetail,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              style: TextStyle(
+                  fontSize: 16,
+                  color: widget.txtColor
+              ),
 
-
-
-        )
-    ) );;
+            )
+        ) );;
   }
+
 
 }

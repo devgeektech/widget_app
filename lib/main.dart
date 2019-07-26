@@ -1,26 +1,61 @@
 import 'package:flutter/material.dart';
 import './widgets/tileWidget.dart';
 import './widgets/customwidget.dart';
+import 'package:geolocator/geolocator.dart';
 
+import 'package:flutter/services.dart';
+import 'dart:async';
+import 'dart:typed_data';
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState  extends State<MyApp>{
+String error;
+
+  @override
+  void initState() {
+    super.initState();
+   getCurrentLocation();
+
+  }
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Widget App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Widget App'),
-    );
+    );;
+  }
+
+  void getCurrentLocation() async{
+
+   // GeolocationStatus geolocationStatus  = await Geolocator.checkGeolocationStatus();
+    try{
+      GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
+      debugPrint("----------------$geolocationStatus");
+    }catch (e){
+      debugPrint("-----------------------------------------------------$e");
+    }
+
+
+
   }
 }
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -40,12 +75,11 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
-        body:
-
-      Center(
+        body: Center(
           child: ListView(
             scrollDirection: Axis.vertical,
             children: <Widget>[
+
               TileWidget(
                   isNetworkImage: false,
                   title: "Suits, Cast, Eccentric, Person",

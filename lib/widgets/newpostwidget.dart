@@ -3,9 +3,10 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart';
+//import 'package:geolocator/geolocator.dart';
+//import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 class NewPostWidget extends StatefulWidget {
@@ -21,20 +22,19 @@ class _myPostWidget extends State<NewPostWidget> {
   TextEditingController locationController = TextEditingController();
   TextEditingController postController = TextEditingController();
   TextEditingController linkController = TextEditingController();
-
+  String link="http://";
 //Map<String,double> currentLocation=new Map();
-  /*var currentLocation = LocationData;
+ // var currentLocation = LocationData;
 
-   StreamSubscription<Map<String, double>> locationSubscription;
-  Location location = new Location();
-  */
-  String error;
-
+  StreamSubscription<Map<String,double>> locationSubscription;
+//Location location=new Location();
+String error;
   @override
   void initState() {
+
     super.initState();
     locationController.text = "";
-    linkController.text = "http://";
+
 
     //getCurrentLocation();
 
@@ -75,7 +75,7 @@ class _myPostWidget extends State<NewPostWidget> {
                 Expanded(
                     child: Padding(
                   padding: EdgeInsets.only(
-                    bottom: 5,
+                    bottom: 2,
                   ),
                   child: Text("Jhon Doe "),
                 )
@@ -85,7 +85,13 @@ class _myPostWidget extends State<NewPostWidget> {
           ),
         ],
       ),
-      body: Stack(
+      body: GestureDetector(
+          onTap: () {
+
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+
+        child: Stack(
         children: <Widget>[
           ListView(
             scrollDirection: Axis.vertical,
@@ -101,8 +107,8 @@ class _myPostWidget extends State<NewPostWidget> {
                           onPressed: () {
                             debugPrint('222');
                           }),
-                      labelText: "First Field",
-                      hintText: ' Enter Principal e.g. 12000',
+                      labelText: "Sec. 17 chandigarh India",
+                      hintText: ' Address',
                       errorStyle:
                           TextStyle(color: Colors.yellowAccent, fontSize: 15.0),
                       border: OutlineInputBorder(
@@ -133,8 +139,18 @@ class _myPostWidget extends State<NewPostWidget> {
                           onPressed: () {
                             setState(() {
                               if (linkController.text.isNotEmpty) {
-                                linkList.add(linkController.text);
-                                linkController.text = "http://";
+                                linkList.add(link + linkController.text);
+                                linkController.text="";
+                              }else{
+                                Fluttertoast.showToast(
+                                    msg: "Please add Post Content.",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIos: 1,
+                                    backgroundColor: Colors.black87,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0
+                                );
                               }
                             });
                           }),
@@ -194,7 +210,24 @@ class _myPostWidget extends State<NewPostWidget> {
               right: 0,
               bottom: 0,
               child: InkWell(
-                onTap: () {},
+                onTap: (){
+if(postController.text=="") {
+
+  Fluttertoast.showToast(
+      msg: "Please add Post Content.",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.black87,
+      textColor: Colors.white,
+      fontSize: 16.0
+  );
+
+}else{
+  postContent();
+}
+
+                },
                 child: Container(
                     color: Colors.blue,
                     child: SizedBox(
@@ -212,24 +245,20 @@ class _myPostWidget extends State<NewPostWidget> {
                     )),
               ))
         ],
-      ),
+        ) ),
     );
   }
 
   getCurrentLocation() async {
     //   List<PermissionName> permissionNames = await Permission.requestPermissions([PermissionName.Location]);
 
-   // Position position1= await Geolocator().getLastKnownPosition(desiredAccuracy:LocationAccuracy.HIGH);
+    //  Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.low);
 
-
-    //Position position = await Geolocator().getLastKnownPosition(desiredAccuracy:  LocationAccuracy.high);
-   /* Position position = await Geolocator()
-        .getLastKnownPosition(desiredAccuracy: LocationAccuracy.low);*/
-   // print("-----------------$position1");
+  //  print("-----------------$position");
   }
 
   launchURL(String url) async {
-    print("----------------------------");
+
     print(url);
     if (await canLaunch(url)) {
       await launch(url);
@@ -238,7 +267,25 @@ class _myPostWidget extends State<NewPostWidget> {
     }
   }
 
-/*  Future<LocationData> initPlateformState() async {
+  void postContent() {
+
+    // code for post te content
+
+    Fluttertoast.showToast(
+        msg: " Content Post. ",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+
+  }
+/*
+  void initPlateformState() async {
+
+
     try {
       currentLocation = await location.getLocation ;
       print("----------------------------$currentLocation");
@@ -249,7 +296,7 @@ class _myPostWidget extends State<NewPostWidget> {
       currentLocation = null;
     }
 
-    *//*  Map<String,double> my_location;
+  *//*  Map<String,double> my_location;
     try{
       my_location=await location.getLocation as Map<String, double> ;
     }on PlatformException catch( e){
@@ -264,5 +311,8 @@ setState(() {
 currentLocation=my_location;
 print("----------------------------$currentLocation");
 });*//*
+
+
   }*/
+
 }

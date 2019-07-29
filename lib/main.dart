@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import './widgets/tileWidget.dart';
 import './widgets/customwidget.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/services.dart';
+import './util/checkpermission.dart';
 import 'dart:async';
 import 'dart:typed_data';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -17,41 +19,56 @@ class MyApp extends StatefulWidget {
   }
 }
 
-class _MyAppState  extends State<MyApp>{
-String error;
+class _MyAppState extends State<MyApp> {
+  String error;
 
   @override
   void initState() {
     super.initState();
-   getCurrentLocation();
-
+    checkPermission();
+     //getCurrentLocation();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'Widget App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Widget App'),
-    );;
+    );
+    ;
   }
 
-  void getCurrentLocation() async{
+  void getCurrentLocation() async {
+    try {
+      var geolocationStatus = await CheckPermission().getLocation();
+      debugPrint("----${geolocationStatus.latitude}");
+    } catch (e) {}
+  }
 
-   // GeolocationStatus geolocationStatus  = await Geolocator.checkGeolocationStatus();
-    try{
-      GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
-      debugPrint("----------------$geolocationStatus");
-    }catch (e){
-      debugPrint("-----------------------------------------------------$e");
+  checkPermission() async {
+
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.location);
+
+    if (permission.value == 0) {
+      requestPermission();
+      //
+    } else {
+      getCurrentLocation();
     }
+  }
 
-
-
+  requestPermission() async {
+    Map<PermissionGroup, PermissionStatus> permissions =
+        await PermissionHandler()
+            .requestPermissions([PermissionGroup.location]);
+    checkPermission();
   }
 }
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
@@ -68,10 +85,11 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           actions: <Widget>[
             IconButton(
-        icon: Icon(Icons.navigate_next),
+              icon: Icon(Icons.navigate_next),
               iconSize: 48,
               color: Colors.white,
-              onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomWidget())),
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CustomWidget())),
             )
           ],
         ),
@@ -79,7 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
             scrollDirection: Axis.vertical,
             children: <Widget>[
-
               TileWidget(
                   isNetworkImage: false,
                   title: "Suits, Cast, Eccentric, Person",

@@ -19,9 +19,7 @@
         android:label="widget_app"
         android:icon="@mipmap/ic_launcher"
         tools:ignore="GoogleAppIndexingWarning">
-        <uses-feature
-            android:glEsVersion="0x00020000"
-            android:required="true"/>
+
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDLlcPcnJzPsa3rdoDWSY7-IVpajGhNiWo"/>
         <!--  <meta-data android:name="com.google.android.geo.API_KEY"

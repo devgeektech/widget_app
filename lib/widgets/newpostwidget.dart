@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 //import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../util/location.dart';
+import './statecontainer.dart';
 
 
 class NewPostWidget extends StatefulWidget {
@@ -16,6 +18,8 @@ class NewPostWidget extends StatefulWidget {
 }
 
 class _myPostWidget extends State<NewPostWidget> {
+
+  Location location;
 
   List<String> linkList = new List();
   int count = 0;
@@ -54,6 +58,10 @@ String error;
 
   @override
   Widget build(BuildContext context) {
+
+    final myInheritedWidget= StateContainer.of(context);
+    location=myInheritedWidget.location;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -105,9 +113,9 @@ String error;
                       suffixIcon: IconButton(
                           icon: Icon(Icons.location_searching),
                           onPressed: () {
-                            debugPrint('222');
+                         //   debugPrint('222222-----------${location.position.latitude.toString()}');
                           }),
-                      labelText: "Sec. 17 chandigarh India",
+                      labelText: "${location.position.latitude.toString()}",
                       hintText: ' Address',
                       errorStyle:
                           TextStyle(color: Colors.yellowAccent, fontSize: 15.0),

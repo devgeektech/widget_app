@@ -12,6 +12,8 @@ class CheckPermission {
 
         geolocationStatus = await Geolocator().getCurrentPosition();
 
+
+
       return geolocationStatus;
 
   }

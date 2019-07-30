@@ -7,8 +7,9 @@ import 'package:flutter/services.dart';
 import './util/checkpermission.dart';
 import 'dart:async';
 import 'dart:typed_data';
+import './widgets/statecontainer.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(StateContainer(child: MyApp()));
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -43,8 +44,10 @@ class _MyAppState extends State<MyApp> {
 
   void getCurrentLocation() async {
     try {
+      final myInheritedWidget = StateContainer.of(context);
       var geolocationStatus = await CheckPermission().getLocation();
-      debugPrint("----${geolocationStatus.latitude}");
+      myInheritedWidget.updateEventInfo(position:geolocationStatus);
+    //  debugPrint("----${geolocationStatus.latitude}");
     } catch (e) {}
   }
 
